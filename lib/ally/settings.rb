@@ -19,12 +19,13 @@ module Ally
     # Deep merging of hashes
     # deep_merge by Stefan Rusterholz, see http://www.ruby-forum.com/topic/142809
     def deep_merge!(target, data)
-      merger = proc{|key, v1, v2|
-        Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
+      merger = proc do |_key, v1, v2|
+        Hash == v1.class && Hash == v2.class ? v1.merge(v2, &merger) : v2
+      end
       target.merge! data, &merger
     end
 
-    def method_missing(name, *args, &block)
+    def method_missing(name, _args, _block)
       @_settings[name.to_sym] ||
       fail(NoMethodError, "unknown configuration root #{name}", caller)
     end
