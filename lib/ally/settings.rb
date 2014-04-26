@@ -1,33 +1,66 @@
-# many thanks the speakmy.name for this code
-# http://speakmy.name/2011/05/29/simple-configuration-for-ruby-apps/
+require 'yaml'
 
 module Ally
-  class Settings
+  module Settings
     extend self
 
-    @_settings = {}
-    attr_reader :_settings
+    @settings = {}
+    attr_reader :settings
 
     def load!(filename, options = {})
-      newsets = YAML.load_file(filename).deep_symbolize
-      newsets = newsets[options[:env].to_sym] if \
-                                                 options[:env] && \
-                                                 newsets[options[:env].to_sym]
-      deep_merge!(@_settings, newsets)
-    end
-
-    # Deep merging of hashes
-    # deep_merge by Stefan Rusterholz, see http://www.ruby-forum.com/topic/142809
-    def deep_merge!(target, data)
-      merger = proc do |_key, v1, v2|
-        Hash == v1.class && Hash == v2.class ? v1.merge(v2, &merger) : v2
-      end
-      target.merge! data, &merger
-    end
-
-    def method_missing(name, _args, _block)
-      @_settings[name.to_sym] ||
-      fail(NoMethodError, "unknown configuration root #{name}", caller)
+      config = YAML.load_file(filename)
+      config.extend DeepSymbolizable
+      @settings = config.deep_symbolize
     end
   end
+end
+
+# the following was borrowed from 
+# https://gist.github.com/morhekil/998709
+module DeepSymbolizable
+  def deep_symbolize(&block)
+    method = self.class.to_s.downcase.to_sym
+    syms = DeepSymbolizable::Symbolizers
+    syms.respond_to?(method) ? syms.send(method, self, &block) : self
+  end
+ 
+  module Symbolizers
+    extend self
+ 
+    # the primary method - symbolizes keys of the given hash,
+    # preprocessing them with a block if one was given, and recursively
+    # going into all nested enumerables
+    def hash(hash, &block)
+      hash.inject({}) do |result, (key, value)|
+        # Recursively deep-symbolize subhashes
+        value = _recurse_(value, &block)
+ 
+        # Pre-process the key with a block if it was given
+        key = yield key if block_given?
+        # Symbolize the key string if it responds to to_sym
+        sym_key = key.to_sym rescue key
+ 
+        # write it back into the result and return the updated hash
+        result[sym_key] = value
+        result
+      end
+    end
+ 
+    # walking over arrays and symbolizing all nested elements
+    def array(ary, &block)
+      ary.map { |v| _recurse_(v, &block) }
+    end
+ 
+    # handling recursion - any Enumerable elements (except String)
+    # is being extended with the module, and then symbolized
+    def _recurse_(value, &block)
+      if value.is_a?(Enumerable) && !value.is_a?(String)
+        # support for a use case without extended core Hash
+        value.extend DeepSymbolizable unless value.class.include?(DeepSymbolizable) 
+        value = value.deep_symbolize(&block)
+      end
+      value
+    end
+  end
+ 
 end
