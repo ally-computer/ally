@@ -1,6 +1,7 @@
 *.gem
 *.rbc
 /.config
+*.yml
 /coverage/
 /InstalledFiles
 /pkg/
@@ -32,3 +33,22 @@ build/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
+
+# Bundler Gems
+*.gem
+*.rbc
+.bundle
+.config
+.yardoc
+Gemfile.lock
+InstalledFiles
+_yardoc
+coverage
+doc/
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
