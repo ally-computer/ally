@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+begin
+  # look for local copy first for dev purposes
+  require_relative '../lib/ally/cli'
+rescue LoadError
+  require 'ally/cli'
+end
+
+# Trap interrupts to quit cleanly.
+Signal.trap('INT') { exit 1 }
+
+# check NLP dependency is installed
+require 'treat'
+models_path = File.absolute_path(Treat.paths.models)
+bin_path = File.absolute_path(Treat.paths.bin)
+Treat::Core::Installer.install 'english' unless
+  Dir.exist?(models_path + '/stanford') && Dir.exist?(bin_path + '/stanford')
+
+Ally::Cli.start(ARGV)
