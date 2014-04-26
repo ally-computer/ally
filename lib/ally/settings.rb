@@ -9,7 +9,7 @@ module Ally
     attr_reader :_settings
 
     def load!(filename, options = {})
-      newsets = YAML::load_file(filename).deep_symbolize
+      newsets = YAML.load_file(filename).deep_symbolize
       newsets = newsets[options[:env].to_sym] if \
                                                  options[:env] && \
                                                  newsets[options[:env].to_sym]

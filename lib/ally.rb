@@ -1,4 +1,4 @@
-require "ally/version"
+require 'ally/version'
 
 module Ally
 end
