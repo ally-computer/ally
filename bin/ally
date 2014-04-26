@@ -3,11 +3,9 @@
 require 'rubygems'
 begin
   # look for local copy first for dev purposes
-  require_relative '../lib/ally/cli'
-  require_relative '../lib/ally/settings'
+  require_relative '../lib/ally'
 rescue LoadError
-  require 'ally/cli'
-  require 'ally/cli'
+  require 'ally'
 end
 
 # Trap interrupts to quit cleanly.
