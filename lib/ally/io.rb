@@ -12,10 +12,10 @@ module Ally
         r.render_keywords
         render = r.get_render(inquiry)
       end
-      Ally::Settings.new_chat(inquiry, render)
+      Ally::Foundation.new_chat(inquiry, render)
       render.new.process(inquiry, self)
-      Ally::Settings.end_chat
-      Ally::Settings.last_answer
+      Ally::Foundation.end_chat
+      Ally::Foundation.last_answer
     end
 
     def pass(text, render = nil)
