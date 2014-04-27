@@ -12,7 +12,6 @@ module Ally
           @settings = Ally::Settings.settings[:detectors][class_name.downcase.to_sym]
         end
       end
-      init if self.respond_to?('init')
     end
 
     def inquiry(inquiry = nil)

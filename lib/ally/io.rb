@@ -32,5 +32,9 @@ module Ally
     def listen?
       self.respond_to?('listen')
     end
+    
+    def say(text)
+      Ally::Foundation.add_answer(text)
+    end
   end
 end

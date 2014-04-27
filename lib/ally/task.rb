@@ -9,7 +9,6 @@ module Ally
       @io = nil
       @thread = nil
       @settings = Ally::Settings.get_plugin_settings(self.class.to_s, 'Task')
-      self.init if self.respond_to?('init')
     end
 
     def run(io, wait = false, **options)

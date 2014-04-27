@@ -1,0 +1,44 @@
+require 'ally/<%= @config[:app][:type] %>'
+require 'ally/<%= @config[:app][:type] %>/<%= @config[:app][:name] %>/version'
+
+module Ally
+  module <%= @config[:app][:type].capitalize %>
+    module <%= @config[:app][:name].capitalize %> < Ally::<%= @config[:app][:type].capitalize %>
+    <% if @config[:app][:type] == 'detector' %>
+      attr_accessor :datapoints
+
+      def initialize(inquiry = nil)
+        super # do not delete
+        # Your code goes here...
+      end
+
+      def detect
+        # Your code goes here...
+        # set @data_detected = true if detected data
+      end
+    <% elsif @config[:app][:type] == 'io' %>
+      def say(text)
+        super # do not delete
+        # Your code goes here...
+      end
+    <% elsif @config[:app][:type] == 'render' %>
+      def initialize
+        super # do not delete
+        @keywords = %w() # set keywords
+      end
+
+      def process(inquiry, io)
+        # send reply text via `io.say(reply_text)`
+      end
+    <% elsif @config[:app][:type] == 'task' %>
+      def initialize
+        super # do not delete
+      end
+
+      def run_task(**options)
+        # send reply text via `@io.say(reply_text)`
+      end
+    <% end %>
+    end
+  end
+end
