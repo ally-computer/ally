@@ -8,23 +8,24 @@ module Ally
       @interval = 10
       @io = nil
       @thread = nil
-      @settings = Ally::Settings.get_plugin_settings(self.class.to_s, 'Task')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'Task')
     end
 
     def run(io, wait = false, **options)
       @io = io
       @thread = Thread.new do
         count = 0
-        begin
+        loop do
           sleep @interval unless count == 0
-          self.run_task(options)
+          run_task(options)
           count += 1
-        end while @infinite_loop == true
+          break unless @infinite_loop
+        end
       end
       @thread.join if wait == true
     end
 
-    def end_task(nicely=true)
+    def end_task(nicely = true)
       if nicely
         @infinite_loop = false
       else

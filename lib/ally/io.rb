@@ -3,17 +3,10 @@ module Ally
     attr_accessor :settings
 
     def initialize
-      @settings = nil
-      if self.class.to_s =~ /^Ally::IO::/
-        class_name = self.class.to_s.split('::').last
-        if Ally::Settings.settings[:io] && Ally::Settings.settings[:io][class_name.downcase.to_sym]
-          @settings = Ally::Settings.settings[:io][class_name.downcase.to_sym]
-        end
-      end
-      init if self.respond_to?('init')
+      @settings = Ally::Foundation.get_plugin_setttings(self.class.to_s, 'Detector')
     end
 
-    def input(inquiry, render=nil)
+    def input(inquiry, render = nil)
       if render.nil?
         r = Ally::Render.new
         r.render_keywords
@@ -32,7 +25,7 @@ module Ally
     def listen?
       self.respond_to?('listen')
     end
-    
+
     def say(text)
       Ally::Foundation.add_answer(text)
     end

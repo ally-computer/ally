@@ -8,13 +8,7 @@ module Ally
 
     def initialize
       @keywords = []
-      @settings = nil
-      if self.class.to_s =~ /^Ally::Render::/
-        class_name = self.class.to_s.split('::').last
-        if Ally::Settings.settings[:renders] && Ally::Settings.settings[:renders][class_name.downcase.to_sym]
-          @settings = Ally::Settings.settings[:renders][class_name.downcase.to_sym]
-        end
-      end
+      @settings = Ally::Foundation.get_plugin_setttings(self.class.to_s, 'Render')
     end
 
     def self.descendants

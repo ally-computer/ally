@@ -5,8 +5,6 @@ module Ally
   module <%= @config[:app][:type].capitalize %>
     module <%= @config[:app][:name].capitalize %> < Ally::<%= @config[:app][:type].capitalize %>
     <% if @config[:app][:type] == 'detector' %>
-      attr_accessor :datapoints
-
       def initialize(inquiry = nil)
         super # do not delete
         # Your code goes here...
@@ -20,6 +18,9 @@ module Ally
       def say(text)
         super # do not delete
         # Your code goes here...
+      end
+      def listen
+        # daemon process listening for incoming inquiries
       end
     <% elsif @config[:app][:type] == 'render' %>
       def initialize

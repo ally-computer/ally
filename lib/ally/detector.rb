@@ -1,22 +1,17 @@
 module Ally
   class Detector
-    attr_accessor :inquiry, :data_detected, :settings
+    attr_accessor :inquiry, :data_detected, :settings, :datapoints
 
     def initialize(inquiry = nil)
       inquiry(inquiry)
+      @datapoints = []
       @data_detected = false
       @settings = nil
-      if self.class.to_s =~ /^Ally::Detector::/
-        class_name = self.class.to_s.split('::').last
-        if Ally::Settings.settings[:detectors] && Ally::Settings.settings[:detectors][class_name.downcase.to_sym]
-          @settings = Ally::Settings.settings[:detectors][class_name.downcase.to_sym]
-        end
-      end
+      @settings = Ally::Foundation.get_plugin_setttings(self.class.to_s, 'Detector')
     end
 
     def inquiry(inquiry = nil)
-      inquiry = Ally::Inquiry.new(inquiry) if inquiry.class == String
-      @inquiry = inquiry
+      @inquiry = Ally::Inquiry.new(inquiry) if inquiry.class == String
       self
     end
 
