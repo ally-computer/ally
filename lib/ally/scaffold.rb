@@ -28,7 +28,7 @@ module Ally
       copy_file("#{source_dir}/LICENSE", "#{target_dir}/LICENSE", false)
       copy_file("#{source_dir}/Rakefile", "#{target_dir}/Rakefile", false)
       copy_file("#{source_dir}/gitignore", "#{target_dir}/.gitignore", false)
-      copy_file("#{source_dir}/rubocop.yml", "#{target_dir}/.rubocop.yml", false)
+      copy_file("#{source_dir}/rubocop", "#{target_dir}/.rubocop.yml", false)
       copy_file("#{source_dir}/rspec", "#{target_dir}/.rspec", false)
       copy_file("#{source_dir}/spec_helper.rb", "#{target_dir}/spec/spec_helper.rb", false)
       copy_file(

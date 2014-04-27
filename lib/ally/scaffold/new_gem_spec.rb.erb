@@ -1,0 +1,32 @@
+require 'spec_helper'
+
+require_relative '../lib/ally/<%= @config[:app][:type] %>/<%= @config[:app][:name] %>'
+
+describe Ally::<%= @config[:app][:type].capitalize %>::<%= @config[:app][:name].capitalize %> do
+  <% if @config[:app][:type] == 'render' %>
+  let(:io) { Ally::IO::Test.new }
+  subject { DLA::Render::<%= @config[:app][:name].capitalize %> }
+
+  it 'say something back' do
+    ans = io.pass("replace_me", subject)
+    ans.should match(/some string expected as the return/i)
+  end
+  <% elsif @config[:app][:type] == 'task' %>
+  let(:io) { Ally::IO::Test.new }
+  it 'run a task' do
+    subject.run(io, true, { replace: 'me' } )
+    evaluate_something.should == something
+  end
+  <% elsif @config[:app][:type] == 'detector' %>
+  context 'detect <%= @config[:app][:name] %>' do
+    it 'simple case' do
+      subject.inquiry(RAWSTRING).detect.should == TODO
+    end
+
+    it 'when no <%= @config[:app][:name] %> exists' do
+      subject.inquiry('No <%= @config[:app][:name] %> here, should be nil')
+        .detect.should == nil
+    end
+  end
+  <% end %>
+end
