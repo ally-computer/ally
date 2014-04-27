@@ -1,5 +1,5 @@
 module Ally
-  module IO
+  module Io
     attr_accessor :settings
 
     def initialize
