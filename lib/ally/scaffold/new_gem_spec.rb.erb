@@ -4,7 +4,7 @@ require_relative '../lib/ally/<%= @config[:app][:type] %>/<%= @config[:app][:nam
 
 describe Ally::<%= @config[:app][:type].capitalize %>::<%= @config[:app][:name].capitalize %> do
   <% if @config[:app][:type] == 'render' %>
-  let(:io) { Ally::IO::Test.new }
+  let(:io) { Ally::Io::Test.new }
   subject { DLA::Render::<%= @config[:app][:name].capitalize %> }
 
   it 'say something back' do
@@ -12,7 +12,7 @@ describe Ally::<%= @config[:app][:type].capitalize %>::<%= @config[:app][:name].
     ans.should match(/some string expected as the return/i)
   end
   <% elsif @config[:app][:type] == 'task' %>
-  let(:io) { Ally::IO::Test.new }
+  let(:io) { Ally::Io::Test.new }
   it 'run a task' do
     subject.run(io, true, { replace: 'me' } )
     evaluate_something.should == something
