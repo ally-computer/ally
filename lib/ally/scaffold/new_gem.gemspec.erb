@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
 
   # development dependencies
   spec.add_development_dependency "bundler", "~> 1.3"
-  %W( rake rspec rubocop ).each do |gem|
+  %w( rake rspec rubocop<% if @config[:app][:type] == 'render' %> ally-io-test<% end %> ).each do |gem|
     spec.add_development_dependency gem
   end
 end
