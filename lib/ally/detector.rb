@@ -1,5 +1,5 @@
 module Ally
-  class Detector
+  module Detector
     attr_accessor :inquiry, :data_detected, :settings, :datapoints
 
     def initialize(inquiry = nil)
@@ -7,7 +7,7 @@ module Ally
       @datapoints = []
       @data_detected = false
       @settings = nil
-      @settings = Ally::Foundation.get_plugin_setttings(self.class.to_s, 'Detector')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'detectors')
     end
 
     def inquiry(inquiry = nil)

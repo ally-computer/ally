@@ -3,12 +3,15 @@ require 'yaml'
 module Ally
   module Settings
     @settings = {}
-    attr_reader :settings
 
-    def self.load!(filename)
-      config = YAML.load_file(filename)
+    def self.load!(file)
+      config = YAML.load_file(file)
       config.extend DeepSymbolizable
       @settings = config.deep_symbolize
+    end
+
+    def self.method_missing(name, *args, &block)
+      @settings[name.to_sym] || {}
     end
   end
 end

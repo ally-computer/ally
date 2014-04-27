@@ -18,9 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ["lib"]
 
+  spec.add_dependency 'ally'
+
   # development dependencies
   spec.add_development_dependency "bundler", "~> 1.3"
-  %W( rake ally rspec rubocop ).each do |gem|
+  %W( rake rspec rubocop ).each do |gem|
     spec.add_development_dependency gem
   end
 end

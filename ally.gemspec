@@ -19,8 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # runtime dependencies
-  spec.add_dependency 'sinatra', '~> 1.4.4'
-  %w( thin sinatra-contrib thor stanford-core-nlp treat ).each do |gem|
+  %w( thor stanford-core-nlp treat ).each do |gem|
     spec.add_dependency gem
   end
 

@@ -1,5 +1,5 @@
 classes = %w(
-  version cli settings foundation scaffold
+  version cli settings foundation scaffold inquiry chat io render task detector
 )
 
 # look for local copy first for dev purposes
@@ -11,7 +11,7 @@ classes.each do |c|
   end
 end
 
-# load any ally gems installed
+# load any ally plugin gems installed
 require 'bundler'
 gems = Bundler.load.specs.select do |s|
   s.name =~ /^ally-(io|render|task)-/

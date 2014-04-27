@@ -1,9 +1,9 @@
 module Ally
-  class IO
+  module IO
     attr_accessor :settings
 
     def initialize
-      @settings = Ally::Foundation.get_plugin_setttings(self.class.to_s, 'Detector')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'ios')
     end
 
     def input(inquiry, render = nil)

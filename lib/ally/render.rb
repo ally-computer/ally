@@ -1,14 +1,14 @@
 # create render class
 # this class takes input and renders a return text
 module Ally
-  class Render
+  module Render
     @all_keywords = nil
 
     attr_accessor :settings, :keywords
 
     def initialize
       @keywords = []
-      @settings = Ally::Foundation.get_plugin_setttings(self.class.to_s, 'Render')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'renders')
     end
 
     def self.descendants

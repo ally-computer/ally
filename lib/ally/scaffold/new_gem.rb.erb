@@ -2,8 +2,8 @@ require 'ally/<%= @config[:app][:type] %>'
 require 'ally/<%= @config[:app][:type] %>/<%= @config[:app][:name] %>/version'
 
 module Ally
-  module <%= @config[:app][:type].capitalize %>
-    module <%= @config[:app][:name].capitalize %> < Ally::<%= @config[:app][:type].capitalize %>
+  class <%= @config[:app][:type].capitalize %>
+    class <%= @config[:app][:name].capitalize %> < Ally::<%= @config[:app][:type].capitalize %>
     <% if @config[:app][:type] == 'detector' %>
       def initialize(inquiry = nil)
         super # do not delete

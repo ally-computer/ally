@@ -1,5 +1,5 @@
 module Ally
-  class Task
+  module Task
     attr_accessor :io, :wait, :infinite_loop
     attr_reader :thread
 
@@ -8,7 +8,7 @@ module Ally
       @interval = 10
       @io = nil
       @thread = nil
-      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'Task')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'tasks')
     end
 
     def run(io, wait = false, **options)
