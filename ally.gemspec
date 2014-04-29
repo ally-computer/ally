@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # runtime dependencies
-  %w( thor stanford-core-nlp treat ).each do |gem|
+  %w( daemons thor stanford-core-nlp treat ).each do |gem|
     spec.add_dependency gem
   end
 
