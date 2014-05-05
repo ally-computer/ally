@@ -8,26 +8,26 @@ module Ally
   class Generate < Thor
     desc 'detector NAME', 'Generate ally detector scaffolding'
     def detector(name)
-      build_scaffold('detector')
+      build_scaffold(name, 'detector')
     end
 
     desc 'render NAME', 'Generate ally render scaffolding'
     def render(name)
-      build_scaffold('render')
+      build_scaffold(name, 'render')
     end
 
     desc 'io NAME', 'Generate ally io scaffolding'
     def io(name)
-      build_scaffold('io')
+      build_scaffold(name, 'io')
     end
 
     desc 'task NAME', 'Generate ally task scaffolding'
     def task(name)
-      build_scaffold('task')
+      build_scaffold(name, 'task')
     end
 
     no_tasks {
-      def build_scaffold(type)
+      def build_scaffold(name, type)
         Ally::Scaffold.new(name.downcase, type)
       end
     }

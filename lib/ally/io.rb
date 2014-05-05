@@ -8,14 +8,15 @@ module Ally
 
     def input(inquiry, render = nil)
       if render.nil?
-        r = Ally::Render.new
-        r.render_keywords
-        render = r.get_render(inquiry)
+        Ally::Render.render_keywords
+        render = Ally::Render.get_render(inquiry)
       end
       Ally::Foundation.new_chat(inquiry, render)
-      render.new.process(inquiry, self)
-      Ally::Foundation.end_chat
-      Ally::Foundation.last_answer
+      unless render.nil?
+        render.new.process(inquiry, self)
+        Ally::Foundation.end_chat
+        Ally::Foundation.last_answer
+      end
     end
 
     def pass(text, render = nil)
