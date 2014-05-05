@@ -8,7 +8,7 @@ module Ally
       @interval = 10
       @io = nil
       @thread = nil
-      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'tasks')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'tasks') || {}
     end
 
     def run(io, wait = false, **options)

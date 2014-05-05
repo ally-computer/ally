@@ -7,7 +7,7 @@ module Ally
       @datapoints = []
       @data_detected = false
       @settings = nil
-      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'detectors')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'detectors') || {}
     end
 
     def inquiry(inquiry = nil)

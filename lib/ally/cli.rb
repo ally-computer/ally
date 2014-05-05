@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'daemons'
 require 'thor'
+require 'ally'
+require 'bundler'
 
 module Ally
   class Generate < Thor
@@ -79,7 +81,6 @@ module Ally
       end
 
       def start_app(options)
-        require 'ally'
         # check if ally is already running
         if File.exist?(options[:pid])
           puts "An ally process is already running (PID #{File.read(options[:pid])})"
@@ -89,14 +90,16 @@ module Ally
           Daemons.daemonize if options[:daemonize]
           # start app
           threads = []
+          # require all ally io plugins
+          Bundler.load.specs.each do |g|
+            require g.name.gsub('-', '/') if g.name =~ /^ally-io-/
+          end
           # get list of Io classes available to initailize listeners
           io_classes = Ally::Io.constants.collect{|k| Ally::Io.const_get(k)}.select {|k| k.is_a?(Class)}
-          puts io_classes
-          io_classes.each do |io_class_name|
-            puts io_class_name
-            io_class = io_class_name.split('::').inject(Object) {|o,c| o.const_get c}
-            threads << Thread.new{ start_io_listen(io_class) } if io_class.listen?
-            theads.each {|t| t.join }
+          io_classes.each do |io_class|
+            c = io_class.new
+            threads << Thread.new{ start_io_listen(c) } if c.listen?
+            threads.each {|t| t.join }
           end
         end
       end

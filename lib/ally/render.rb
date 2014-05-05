@@ -8,22 +8,28 @@ module Ally
 
     def initialize
       @keywords = []
-      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'renders')
+      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'renders') || {}
     end
 
     def self.descendants
+      # load all ally render gems available
+      gems = Bundler.load.specs.each do |s|
+        if s.name =~ /^ally-render-/
+          require s.name.gsub('-', '/')
+        end
+      end
       ObjectSpace.each_object(Class).select { |klass| klass < self }
     end
 
-    def keywords
-      if @settings.class == Hash && @settings.key?(:keywords) && @settings[:keywords].class == Array
+    def self.keywords
+      if @settings.key?(:keywords) && @settings[:keywords].class == Array
         @settings[:keywords] + @keywords
       else
         @keywords
       end
     end
 
-    def render_keywords
+    def self.render_keywords
       if @all_keywords.nil?
         keywords = {}
         Ally::Render.descendants.each do |c|
@@ -34,7 +40,7 @@ module Ally
       end
     end
 
-    def get_render(inquiry)
+    def self.get_render(inquiry)
       renders = []
       @all_keywords.each_value do |c|
         total = 0
@@ -45,7 +51,7 @@ module Ally
       end
       if renders.length == 0
         # if no render matches, default to Wolfram
-        Ally::Render::Wolfram
+        Ally::Render::Wolfram if defined?(Ally::Render::Wolfram)
       else
         my_render = renders.sort_by { |r| r[:total] }.first
         my_render[:class_ref]

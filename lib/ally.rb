@@ -17,7 +17,7 @@ gems = Bundler.load.specs.select do |s|
   s.name =~ /^ally-(io|render|task)-/
 end
 gems.each do |gem|
-  require gem.name unless Gem.loaded_specs.keys.include?(gem.name)
+  require gem.name.gsub('-', '/') unless Gem.loaded_specs.keys.include?(gem.name)
 end
 
 module Ally
