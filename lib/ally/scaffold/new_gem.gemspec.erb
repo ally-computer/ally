@@ -6,7 +6,7 @@ require 'ally/<%= @config[:app][:type] %>/<%= @config[:app][:name] %>/version'
 Gem::Specification.new do |spec|
   spec.name          = "ally-<%= @config[:app][:type] %>-<%= @config[:app][:name] %>"
   spec.version       = Ally::<%= @config[:app][:type].capitalize %>::<%= @config[:app][:name].capitalize %>::VERSION
-  spec.authors       = ["<%= @config[:git][:user] %>"]
+  spec.authors       = ["<%= @config[:git][:name] %>"]
   spec.email         = ["<%= @config[:git][:email] %>"]
   spec.description   = %q{<%= @config[:app][:description] %>}
   spec.summary       = %q{<%= @config[:app][:summary] %>}
