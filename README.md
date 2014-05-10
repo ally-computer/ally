@@ -1,7 +1,7 @@
 ally
 ====
 
-Ally, a personal assistant.
+Ally, is like a personal assistant. Its a natural language parsing framework to build your own and collaborative plugins to extend its capabilities. Think of it as a flexible, open sourced, [siri](http://www.apple.com/ios/siri/?cid=wwa-us-kwg-features-com). 
 
 ## Installation
 
@@ -17,9 +17,58 @@ Or install it yourself as:
 
     $ gem install ally
 
-## Usage
+For each additional functionality you want to add to your ally, add it to the Gemfile.
+Heres an example
 
-TODO: Write usage instructions here
+```
+source 'https://rubygems.org'
+
+ruby '2.1.0'
+#ruby-gemset=my-ally
+
+# IO plugins
+gem 'ally-io-console'
+
+# Render Plugins
+gem 'ally-render-hello'
+```
+
+Create your yaml config file, similar to this one.
+
+```
+me:
+  name:
+    first: 'Chad'
+    last_name: 'Barraford'
+  birthday:
+    month: 8
+    day: 20
+    year: 1982
+  contact:
+    cell: 11235551234
+    email: 'cbarraford@gmail.com'
+  home:
+    street: 'main street'
+    number: 1
+    city: 'Boston'
+    state: 'MA'
+    country: 'USA'
+    zipcode: '01001'
+renders:
+  hello:
+    keywords: # set additional keywords
+      - ciao
+detectors:
+  place:
+    apikey: 'XXXXXXXXXXXXXXXXXXXXXXX'
+ios:
+```
+
+To start ally, run 
+
+```bash
+ally start -c <yaml config file>
+```
 
 ## Contributing
 
