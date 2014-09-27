@@ -5,7 +5,7 @@ require_relative '../lib/ally/<%= @config[:app][:type] %>/<%= @config[:app][:nam
 describe Ally::<%= @config[:app][:type].capitalize %>::<%= @config[:app][:name].capitalize %> do
   <% if @config[:app][:type] == 'render' %>
   let(:io) { Ally::Io::Test.new }
-  subject { DLA::Render::<%= @config[:app][:name].capitalize %> }
+  subject { Ally::Render::<%= @config[:app][:name].capitalize %> }
 
   it 'say something back' do
     ans = io.pass("replace_me", subject)
