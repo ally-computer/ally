@@ -1,4 +1,7 @@
 require 'spec_helper'
+<% if @config[:app][:type] == 'render' %>
+require 'ally/io/test'
+<% end %>
 
 require_relative '../lib/ally/<%= @config[:app][:type] %>/<%= @config[:app][:name] %>'
 
