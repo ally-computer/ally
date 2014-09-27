@@ -105,6 +105,12 @@ module Ally
       end
 
       def stop_app(options)
+        if File.exist?(options[:pid])
+          pid = File.read(options[:pid])
+          Process.kill("KILL", pid)
+        else
+          puts "Unable to find ally PID"
+        end
       end
     }
   end
