@@ -1,7 +1,7 @@
 ally
 ====
 
-Ally, is like a personal assistant. Its a natural language parsing framework to build your own and collaborative plugins to extend its capabilities. Think of it as a flexible, open sourced, [siri](http://www.apple.com/ios/siri/?cid=wwa-us-kwg-features-com). 
+Ally, a personal assistant. It is a natural language parsing framework to build your own assistant and collaborative plugins to extend its capabilities. Think of it as a flexible, open sourced, [siri](http://www.apple.com/ios/siri/?cid=wwa-us-kwg-features-com). 
 
 ## Installation
 
