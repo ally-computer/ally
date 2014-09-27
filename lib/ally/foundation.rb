@@ -3,7 +3,7 @@ module Ally
     attr_accessor :chats
 
     def self.get_plugin_settings(class_name, class_type)
-      Ally::Settings.send(class_type.to_sym)[class_name.downcase.to_sym]
+      Ally::Settings.send(class_type.to_sym)[class_name.split(/::/).last.downcase.to_sym]
     end
 
     def self.new_chat(inquiry, render)

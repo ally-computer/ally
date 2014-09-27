@@ -74,9 +74,16 @@ module Ally
         sleep_delay = io_class.settings[:listen_delay] if io_class.settings[:listen_delay] &&
           io_class.settings[:listen_delay].class == Fixnum
         sleep_delay ||= 10
-        loop do
+        use_loop = io_class.settings[:loop] if io_class.settings[:loop] &&
+          io_class.settings[:loop].class == Boolean
+        use_loop ||= true
+        if use_loop
+          loop do
+            io_class.listen
+            sleep sleep_delay
+          end
+        else
           io_class.listen
-          sleep sleep_delay
         end
       end
 
@@ -99,8 +106,8 @@ module Ally
           io_classes.each do |io_class|
             c = io_class.new
             threads << Thread.new{ start_io_listen(c) } if c.listen?
-            threads.each {|t| t.join }
           end
+          threads.each {|t| t.join }
         end
       end
 
