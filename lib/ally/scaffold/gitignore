@@ -18,3 +18,4 @@ tmp
 
 *.yml
 *.swp
+.env
