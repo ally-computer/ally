@@ -6,6 +6,16 @@ module Ally
 
     def self.load!(file)
       config = YAML.load_file(file)
+      # load settings from environment variables (do not override)
+      ENV.each_pair do |k,v|
+        if k =~ /ALLY_SETTINGS_/
+          setting = k.downcase.split('_')[2..-1]
+          # convert array => hash
+          setting = setting.reverse.inject(v) { |a, n| { n => a } }
+          # deep merge the setting into the config hash
+          config = setting.deep_merge(config)
+        end
+      end
       config.extend DeepSymbolizable
       @settings = config.deep_symbolize
     end
@@ -61,4 +71,11 @@ module DeepSymbolizable
       value
     end
   end
+end
+
+class ::Hash
+    def deep_merge(second)
+        merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
+        self.merge(second, &merger)
+    end
 end
