@@ -6,22 +6,24 @@ module Ally
 
     def self.load!(file)
       config = YAML.load_file(file)
-      # load settings from environment variables (do not override)
-      ENV.each_pair do |k,v|
-        if k =~ /ALLY_SETTINGS_/
-          setting = k.downcase.split('_')[2..-1]
-          # convert array => hash
-          setting = setting.reverse.inject(v) { |a, n| { n => a } }
-          # deep merge the setting into the config hash
-          config = setting.deep_merge(config)
-        end
-      end
       config.extend DeepSymbolizable
       @settings = config.deep_symbolize
     end
 
     def self.method_missing(name, *args, &block)
-      @settings[name.to_sym] || {}
+      settings = @settings[name.to_sym] || {}
+      # load settings from environment variables (do not override)
+      ENV.each_pair do |k,v|
+        if k =~ /ALLY_SETTINGS_#{name.upcase()}_/
+          setting = k.downcase.split('_')[3..-1]
+          # convert array => hash
+          setting = setting.reverse.inject(v) { |a, n| { n => a } }
+          # deep merge the setting into the config hash
+          settings = setting.deep_merge(settings)
+        end
+      end
+      settings.extend DeepSymbolizable
+      settings.deep_symbolize
     end
   end
 end
