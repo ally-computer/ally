@@ -3,7 +3,8 @@ module Ally
     attr_accessor :settings
 
     def initialize
-      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'ios') || {}
+      @plugin_settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'ios') || {}
+      @user_settings = Ally::Foundation.get_user_settings()
     end
 
     def input(inquiry, render = nil)

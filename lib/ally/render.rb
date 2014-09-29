@@ -4,11 +4,12 @@ module Ally
   module Render
     @all_keywords = nil
 
-    attr_accessor :settings, :keywords
+    attr_accessor :plugin_settings, :user_settings, :keywords
 
     def initialize
       @keywords = []
-      @settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'renders') || {}
+      @plugin_settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'renders') || {}
+      @user_settings = Ally::Foundation.get_user_settings()
     end
 
     def self.descendants
@@ -22,8 +23,8 @@ module Ally
     end
 
     def self.keywords
-      if @settings.key?(:keywords) && @settings[:keywords].class == Array
-        @settings[:keywords] + @keywords
+      if @plugin_settings.key?(:keywords) && @plugin_settings[:keywords].class == Array
+        @plugin_settings[:keywords] + @keywords
       else
         @keywords
       end

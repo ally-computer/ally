@@ -2,28 +2,34 @@ require 'yaml'
 
 module Ally
   module Settings
-    @settings = {}
+    attr_accessor :settings
+
+    def self.load_env_vars()
+      @settings ||= {}
+      # load settings from environment variables (do not override)
+      ENV.each_pair do |k,v|
+        if k =~ /ALLY_SETTINGS_/
+          setting = k.downcase.split('_')[2..-1]
+          # convert array => hash
+          setting = setting.reverse.inject(v) { |a, n| { n => a } }
+          # deep merge the setting into the config hash
+          @settings = setting.deep_merge(@settings)
+        end
+      end
+      @settings.extend DeepSymbolizable
+      @settings = @settings.deep_symbolize
+    end
 
     def self.load!(file)
+      @settings ||= {}
       config = YAML.load_file(file)
+      config = config.deep_merge(@settings)
       config.extend DeepSymbolizable
       @settings = config.deep_symbolize
     end
 
     def self.method_missing(name, *args, &block)
       settings = @settings[name.to_sym] || {}
-      # load settings from environment variables (do not override)
-      ENV.each_pair do |k,v|
-        if k =~ /ALLY_SETTINGS_#{name.upcase()}_/
-          setting = k.downcase.split('_')[3..-1]
-          # convert array => hash
-          setting = setting.reverse.inject(v) { |a, n| { n => a } }
-          # deep merge the setting into the config hash
-          settings = setting.deep_merge(settings)
-        end
-      end
-      settings.extend DeepSymbolizable
-      settings.deep_symbolize
     end
   end
 end
@@ -76,8 +82,8 @@ module DeepSymbolizable
 end
 
 class ::Hash
-    def deep_merge(second)
-        merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
-        self.merge(second, &merger)
-    end
+  def deep_merge(second)
+    merger = proc { |key, v1, v2| Hash === v1 && Hash === v2 ? v1.merge(v2, &merger) : v2 }
+    self.merge(second, &merger)
+  end
 end

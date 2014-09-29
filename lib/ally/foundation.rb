@@ -6,6 +6,10 @@ module Ally
       Ally::Settings.send(class_type.to_sym)[class_name.split(/::/).last.downcase.to_sym]
     end
 
+    def self.get_user_settings
+      Ally::Settings.send('user')
+    end
+
     def self.new_chat(inquiry, render)
       @current_chat = Ally::Chat.new(inquiry, render)
     end

@@ -93,6 +93,7 @@ module Ally
           puts "An ally process is already running (PID #{File.read(options[:pid])})"
           exit 1
         else
+          Ally::Settings.load_env_vars()
           Ally::Settings.load!(options['config']) if options['config']
           Daemons.daemonize if options[:daemonize]
           # start app
