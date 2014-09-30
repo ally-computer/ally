@@ -1,6 +1,6 @@
 module Ally
   module Io
-    attr_accessor :settings
+    attr_reader :plugin_settings, :user_settings
 
     def initialize
       @plugin_settings = Ally::Foundation.get_plugin_settings(self.class.to_s, 'ios') || {}

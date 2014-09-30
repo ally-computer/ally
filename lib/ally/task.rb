@@ -1,7 +1,7 @@
 module Ally
   module Task
     attr_accessor :io, :wait, :infinite_loop
-    attr_reader :thread
+    attr_reader :thread, :plugin_settings, :user_settings
 
     def initialize
       @infinite_loop = false

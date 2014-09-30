@@ -4,7 +4,8 @@ module Ally
   module Render
     @all_keywords = nil
 
-    attr_accessor :plugin_settings, :user_settings, :keywords
+    attr_accessor :keywords
+    attr_reader :plugin_settigns, :user_settings
 
     def initialize
       @keywords = []
