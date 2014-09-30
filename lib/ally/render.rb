@@ -5,7 +5,7 @@ module Ally
     @all_keywords = nil
 
     attr_accessor :keywords
-    attr_reader :plugin_settigns, :user_settings
+    attr_reader :plugin_settings, :user_settings
 
     def initialize
       @keywords = []
