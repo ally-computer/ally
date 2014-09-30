@@ -29,6 +29,7 @@ module Ally
     end
 
     def self.method_missing(name, *args, &block)
+      self.load_env_vars() unless defined?(@settings)  # load environment vars (if havent)
       settings = @settings[name.to_sym] || {}
     end
   end
